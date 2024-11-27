@@ -6,7 +6,7 @@
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:39:34 by aakyuz            #+#    #+#             */
-/*   Updated: 2024/11/27 11:40:50 by ayasar           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:26:28 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,14 @@ static char	*ft_free(char **left_c, int fd)
 
 char	*get_next_line(int fd)
 {
-	//open max sıkıntı veriyor
-	static char	*left_c[1048576];
+	static char	*left_c[OPEN_MAX];
 	char		*line;
 	char		*buffer;
 
 	if (fd < 0 || (unsigned long long)BUFFER_SIZE <= 0
-		|| fd >= 1048576 || read(fd, 0, 0) < 0)
+		|| fd >= OPEN_MAX || read(fd, 0, 0) < 0)
 	{
-		if (fd >= 0 && fd < 1048576 && left_c[fd])
+		if (fd >= 0 && fd < OPEN_MAX && left_c[fd])
 		{
 			free(left_c[fd]);
 			left_c[fd] = NULL;

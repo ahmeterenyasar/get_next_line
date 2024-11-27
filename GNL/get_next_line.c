@@ -6,7 +6,7 @@
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:38:12 by aakyuz            #+#    #+#             */
-/*   Updated: 2024/11/27 11:55:44 by ayasar           ###   ########.fr       */
+/*   Updated: 2024/11/27 14:13:44 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*set_line(char *line)
 	i = 0;
 	while (line[i] != '\n' && line[i] != '\0')
 		i++;
-	if (line[i] == 0 || line[1] == 0)
+	if (line[i] == 0)
 		return (NULL);
 	left_c = ft_substr(line, i + 1, ft_strlen(line) - i);
 	if (*left_c == 0)
@@ -79,6 +79,7 @@ static char	*fill_line_buffer(int fd, char *left_c, char *buffer)
 	}
 	return (left_c);
 }
+
 
 char	*get_next_line(int fd)
 {
