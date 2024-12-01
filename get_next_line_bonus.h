@@ -1,17 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 11:29:15 by ayasar            #+#    #+#             */
-/*   Updated: 2024/12/01 14:32:31 by ayasar           ###   ########.fr       */
+/*   Created: 2024/12/01 15:38:44 by ayasar            #+#    #+#             */
+/*   Updated: 2024/12/01 15:45:31 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 1024
+# endif
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/01 11:29:39 by ayasar            #+#    #+#             */
-/*   Updated: 2024/12/01 11:46:10 by ayasar           ###   ########.fr       */
+/*   Created: 2024/12/01 15:40:11 by ayasar            #+#    #+#             */
+/*   Updated: 2024/12/01 15:40:47 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(char *str)
 {
@@ -30,7 +30,7 @@ char	*ft_strchr(char *s, int c)
 
 	i = 0;
 	if (!s)
-		return (NULL);
+		return (0);
 	if (c == '\0')
 		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
@@ -39,7 +39,7 @@ char	*ft_strchr(char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
