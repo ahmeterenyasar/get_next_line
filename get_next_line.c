@@ -6,11 +6,12 @@
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 11:28:43 by ayasar            #+#    #+#             */
-/*   Updated: 2024/12/01 15:42:18 by ayasar           ###   ########.fr       */
+/*   Updated: 2024/12/02 13:18:01 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*ft_set_line(char *save)
 {
@@ -96,7 +97,7 @@ char	*get_next_line(int fd)
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (0);
+		return (NULL);
 	save = ft_read_and_save(fd, save);
 	if (!save)
 		return (NULL);

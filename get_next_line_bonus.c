@@ -6,7 +6,7 @@
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:38:12 by ayasar            #+#    #+#             */
-/*   Updated: 2024/12/01 15:56:42 by ayasar           ###   ########.fr       */
+/*   Updated: 2024/12/02 13:34:37 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_set_line(char *save)
 char	*ft_save(char *save)
 {
 	int		i;
-	int		c;
+	int		j;
 	char	*s;
 
 	i = 0;
@@ -58,44 +58,44 @@ char	*ft_save(char *save)
 	if (!s)
 		return (NULL);
 	i++;
-	c = 0;
+	j = 0;
 	while (save[i])
-		s[c++] = save[i++];
-	s[c] = '\0';
+		s[j++] = save[i++];
+	s[j] = '\0';
 	free(save);
 	return (s);
 }
 
 char	*ft_read_and_save(int fd, char *save)
 {
-	char	*buff;
+	char	*buffer;
 	int		read_bytes;
 
-	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
-	if (!buff)
+	buffer = malloc(((size_t)BUFFER_SIZE + 1) * sizeof(char));
+	if (!buffer)
 		return (NULL);
 	read_bytes = 1;
 	while (!ft_strchr(save, '\n') && read_bytes != 0)
 	{
-		read_bytes = read(fd, buff, BUFFER_SIZE);
+		read_bytes = read(fd, buffer, BUFFER_SIZE);
 		if (read_bytes == -1)
 		{
-			free(buff);
+			free(buffer);
 			return (NULL);
 		}
-		buff[read_bytes] = '\0';
-		save = ft_strjoin(save, buff);
+		buffer[read_bytes] = '\0';
+		save = ft_strjoin(save, buffer);
 	}
-	free(buff);
+	free(buffer);
 	return (save);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*save[257];
+	static char	*save[OPEN_MAX];
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 256)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
 		return (0);
 	save[fd] = ft_read_and_save(fd, save[fd]);
 	if (!save[fd])

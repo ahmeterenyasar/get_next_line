@@ -6,7 +6,7 @@
 /*   By: ayasar <ayasar@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 15:40:11 by ayasar            #+#    #+#             */
-/*   Updated: 2024/12/01 15:40:47 by ayasar           ###   ########.fr       */
+/*   Updated: 2024/12/02 13:38:18 by ayasar           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 size_t	ft_strlen(char *str)
 {
-	size_t	c;
+	size_t	i;
 
-	c = 0;
+	i = 0;
 	if (!str)
 		return (0);
-	while (str[c] != '\0')
-		c++;
-	return (c);
+	while (str[i] != '\0')
+		i++;
+	return (i);
 }
 
 char	*ft_strchr(char *s, int c)
@@ -45,7 +45,7 @@ char	*ft_strchr(char *s, int c)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	i;
-	size_t	c;
+	size_t	j;
 	char	*str;
 
 	if (!s1)
@@ -59,12 +59,12 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (str == NULL)
 		return (NULL);
 	i = -1;
-	c = 0;
+	j = 0;
 	if (s1)
 		while (s1[++i] != '\0')
 			str[i] = s1[i];
-	while (s2[c] != '\0')
-		str[i++] = s2[c++];
+	while (s2[j] != '\0')
+		str[i++] = s2[j++];
 	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
 	free(s1);
 	return (str);
