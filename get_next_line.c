@@ -1,5 +1,10 @@
 #include "get_next_line.h"
 
+void temizleyiciii(t_okuma_chunk_burkay_bey **head)
+{
+    t_okuma_chunk_burkay_bey *temp = *head;
+}
+
 char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
 {
     char *satır;
@@ -156,6 +161,9 @@ void gnl(int fd)
     
 
     // TEMİZLEME
+    temizleyiciii(&head);
+    
+
     // + MAIN yazalım ve test edelim sürekli
 }
 
