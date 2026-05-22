@@ -92,7 +92,6 @@ int toplayici(int fd, t_okuma_chunk_burkay_bey **head)
     t_okuma_chunk_burkay_bey *new_node;
     int n;
 
-    // İçeride return görene kadar dön babam dön
     while (1)
     {
         new_node = malloc(sizeof(t_okuma_chunk_burkay_bey));
@@ -100,22 +99,21 @@ int toplayici(int fd, t_okuma_chunk_burkay_bey **head)
             return (-1);
             
         new_node->data = malloc(BUFFER_SIZE);
-        if (!new_node->data) // düzeltiyorum sorry: ->data kontrolü yapılmalıydı okey sorry tamam özür okey
+        if (!new_node->data)
         {
             free(new_node);
             return (-1);
         }
 
-        // okuyoruz burada:
         n = read(fd, new_node->data, BUFFER_SIZE);
         
-        if (n < 0) // HATA DURUMU hata hata
+        if (n < 0)
         {
             free(new_node->data);
             free(new_node);
-            return (-1); // Hata -1 dönüyoruz -1 for hatalar -1
+            return (-1);
         }
-        if (n == 0) // EOF yani okuyacak bir şey kalmadığı için 0 döncez return
+        if (n == 0)
         {
             free(new_node->data);
             free(new_node);
@@ -138,9 +136,6 @@ char *gnl(int fd)
 {
     static t_okuma_chunk_burkay_bey *head = NULL;
     char *satır;
-
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return ;
 
     // TOPLAMA
     toplayici(fd, &head);
