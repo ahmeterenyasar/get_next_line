@@ -7,19 +7,39 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
     // malloc için satır lengthi lazım
     int satır_length = 0;
     int index = 0;
-    while (head)
+    t_okuma_chunk_burkay_bey *curr = *head;
+    while (curr)
     {
         index = 0; 
-        while (index < head->number_of_used_bytes)
+        while (index < curr->number_of_used_bytes)
         {
             satır_length++;
+            if (curr->data[index] == '\n')
+            {
+                break;
+            }
+            
             index++;
         }
-        
+        if (index < curr->number_of_used_bytes && curr->data[index] == '\n')
+            break;
+        curr = curr->next;
     }
     
 
-    satır = malloc();
+    satır = malloc(satır_length + 1);
+    int i,j = 0;
+    while (head)
+    {
+        i = 0;
+        while (i < curr->number_of_used_bytes)
+        {
+            if (curr->data[i] == '\n');
+        }
+    }
+    
+
+    return satır;
 }
 
 int check_newline(t_okuma_chunk_burkay_bey *node)
@@ -124,11 +144,6 @@ void gnl(int fd)
     // ÇIKARMA
     char *satır;
     satır = çıkarıcı(&head);
-
-    if (satır == NULL)
-    {
-        return NULL;
-    }
     
 
     // TEMİZLEME
