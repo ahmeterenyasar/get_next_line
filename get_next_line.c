@@ -2,7 +2,33 @@
 
 void temizleyiciii(t_okuma_chunk_burkay_bey **head)
 {
-    t_okuma_chunk_burkay_bey *temp = *head;
+    t_okuma_chunk_burkay_bey *currrent_ama_neden_current_neden_curr_degil = *head;
+    int i, j;
+
+    while (currrent_ama_neden_current_neden_curr_degil)
+    {
+        i = 0;
+        while (i < currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes)
+        {
+            if (currrent_ama_neden_current_neden_curr_degil->data[i] == '\n')
+            {
+                j = 0;
+                while (currrent_ama_neden_current_neden_curr_degil->data[i] != '\0') 
+                {
+                    currrent_ama_neden_current_neden_curr_degil->data[j] = currrent_ama_neden_current_neden_curr_degil->data[i + 1];
+                    i++;
+                    j++;
+                }
+                currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes = j;
+                *head = currrent_ama_neden_current_neden_curr_degil;
+                return;
+            }
+            i++;
+        }
+        currrent_ama_neden_current_neden_curr_degil = currrent_ama_neden_current_neden_curr_degil->next;
+    }
+    free(*head);
+    *head = NULL;
 }
 
 char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
@@ -137,15 +163,8 @@ char *gnl(int fd)
     static t_okuma_chunk_burkay_bey *head = NULL;
     char *satır;
 
-    // TOPLAMA
     toplayici(fd, &head);
-
-
-    // ÇIKARMA
     satır = çıkarıcı(&head);
-    
-
-    // TEMİZLEME
     temizleyiciii(&head);
     
     return satır;
