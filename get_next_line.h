@@ -1,5 +1,5 @@
 #ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_
+# define GET_NEXT_LINE_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,7 +15,7 @@ typedef struct s_okuma_chunk_burkay_bey
     char* data;
     int number_of_used_bytes;
     // sonraki node'a geçebilmek için aynı veri türüne ait bir değişkeni de barındırıyor anladınız mı?
-    struct okuma_chunk_burkay_bey* next;
+    struct s_okuma_chunk_burkay_bey* next;
 } t_okuma_chunk_burkay_bey;
 
 

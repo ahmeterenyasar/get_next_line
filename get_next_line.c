@@ -1,10 +1,35 @@
 #include "get_next_line.h"
 
-void ekle_sona_ekle(t_okuma_chunk_burkay_bey **head, t_okuma_chunk_burkay_bey *new_node)
+int check_newline(t_okuma_chunk_burkay_bey *node)
 {
-
+    int i = 0;
+    if (!node || !node->data)
+        return (0);
+    while (i < node->number_of_used_bytes)
+    {
+        if (node->data[i] == '\n')
+            return (1);
+        i++;
+    }
+    return (0);
 }
 
+void ekle_sona_ekle(t_okuma_chunk_burkay_bey **head, t_okuma_chunk_burkay_bey *new_node)
+{
+    t_okuma_chunk_burkay_bey *temporary;
+
+    if (!*head)
+    {
+        *head = new_node;
+        return;
+    }
+    temporary = *head;
+    while (temporary->next)
+    {
+        temporary = temporary->next;
+    }
+    temporary->next = new_node;
+}
 
 int toplayici(int fd, t_okuma_chunk_burkay_bey **head)
 {
@@ -65,6 +90,15 @@ void gnl(int fd)
         return ;
 
     // TOPLAMA
+    toplayici(fd, &head);
+    t_okuma_chunk_burkay_bey *temp = head;
+    int node_no = 1;
+    while (temp)
+    {
+        printf("%d: okunan byte = %d\n", node_no, temp->number_of_used_bytes);
+        temp = temp->next;
+        node_no++;
+    }
     // ÇIKARMA
     // TEMİZLEME
     // + MAIN yazalım ve test edelim sürekli
