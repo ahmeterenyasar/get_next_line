@@ -4,6 +4,21 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
 {
     char *satır;
 
+    // malloc için satır lengthi lazım
+    int satır_length = 0;
+    int index = 0;
+    while (head)
+    {
+        index = 0; 
+        while (index < head->number_of_used_bytes)
+        {
+            satır_length++;
+            index++;
+        }
+        
+    }
+    
+
     satır = malloc();
 }
 
