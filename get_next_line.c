@@ -4,7 +4,6 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
 {
     char *satır;
 
-    // malloc için satır lengthi lazım
     int satır_length = 0;
     int index = 0;
     t_okuma_chunk_burkay_bey *curr = *head;
@@ -18,27 +17,37 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
             {
                 break;
             }
-            
             index++;
         }
         if (index < curr->number_of_used_bytes && curr->data[index] == '\n')
             break;
         curr = curr->next;
     }
-    
 
     satır = malloc(satır_length + 1);
-    int i,j = 0;
-    while (head)
+
+    int i = 0;
+    int j = 0;
+    
+    while (curr)
     {
         i = 0;
         while (i < curr->number_of_used_bytes)
         {
-            if (curr->data[i] == '\n');
+            satır[j] = curr->data[i];
+            j++;
+            
+            if (curr->data[i] == '\n')
+            {
+                satır[j] = '\0';
+                return satır;
+            }
+            i++;
         }
+        curr = curr->next;
     }
     
-
+    satır[j] = '\0';
     return satır;
 }
 
