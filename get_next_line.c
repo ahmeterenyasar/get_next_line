@@ -1,5 +1,12 @@
 #include "get_next_line.h"
 
+char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
+{
+    char *satır;
+
+    satır = malloc();
+}
+
 int check_newline(t_okuma_chunk_burkay_bey *node)
 {
     int i = 0;
@@ -91,15 +98,24 @@ void gnl(int fd)
 
     // TOPLAMA
     toplayici(fd, &head);
-    t_okuma_chunk_burkay_bey *temp = head;
-    int node_no = 1;
-    while (temp)
-    {
-        printf("%d: okunan byte = %d\n", node_no, temp->number_of_used_bytes);
-        temp = temp->next;
-        node_no++;
-    }
+    // t_okuma_chunk_burkay_bey *temp = head;
+    // int node_no = 1;
+    // while (temp)
+    // {
+    //     printf("%d: okunan byte = %d\n", node_no, temp->number_of_used_bytes);
+    //     temp = temp->next;
+    //     node_no++;
+    // }
     // ÇIKARMA
+    char *satır;
+    satır = çıkarıcı(&head);
+
+    if (satır == NULL)
+    {
+        return NULL;
+    }
+    
+
     // TEMİZLEME
     // + MAIN yazalım ve test edelim sürekli
 }
