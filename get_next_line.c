@@ -1,4 +1,8 @@
 #include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void temizleyiciii(t_okuma_chunk_burkay_bey **head)
 {
@@ -13,13 +17,14 @@ void temizleyiciii(t_okuma_chunk_burkay_bey **head)
             if (currrent_ama_neden_current_neden_curr_degil->data[i] == '\n')
             {
                 j = 0;
-                while (currrent_ama_neden_current_neden_curr_degil->data[i] != '\0') 
+                while (i < currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes - 1) 
                 {
                     currrent_ama_neden_current_neden_curr_degil->data[j] = currrent_ama_neden_current_neden_curr_degil->data[i + 1];
                     i++;
                     j++;
                 }
                 currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes = j;
+                
                 *head = currrent_ama_neden_current_neden_curr_degil;
                 return;
             }
@@ -56,6 +61,8 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
     }
 
     satır = malloc(satır_length + 1);
+
+    curr = *head; 
 
     int i = 0;
     int j = 0;
@@ -162,6 +169,10 @@ char *gnl(int fd)
 {
     static t_okuma_chunk_burkay_bey *head = NULL;
     char *satır;
+
+    // fd kontrolünü buraya eklemek zorunda kaldım yoksa fd=open eksi dönerse direkt patlıyor sistem
+    if (fd < 0 || BUFFER_SIZE <= 0)
+        return (NULL);
 
     toplayici(fd, &head);
     satır = çıkarıcı(&head);
