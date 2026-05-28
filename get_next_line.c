@@ -4,9 +4,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void temizleyiciii(t_okuma_chunk_burkay_bey **head)
+void temizleyiciii(t_stash **head)
 {
-    t_okuma_chunk_burkay_bey *currrent_ama_neden_current_neden_curr_degil = *head;
+    t_stash *currrent_ama_neden_current_neden_curr_degil = *head;
     int i, j;
 
     while (currrent_ama_neden_current_neden_curr_degil)
@@ -36,13 +36,13 @@ void temizleyiciii(t_okuma_chunk_burkay_bey **head)
     *head = NULL;
 }
 
-char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
+char *çıkarıcı(t_stash **head)
 {
     char *satır;
 
     int satır_length = 0;
     int index = 0;
-    t_okuma_chunk_burkay_bey *curr = *head;
+    t_stash *curr = *head;
     while (curr)
     {
         index = 0; 
@@ -89,7 +89,7 @@ char *çıkarıcı(t_okuma_chunk_burkay_bey **head)
     return satır;
 }
 
-int check_newline(t_okuma_chunk_burkay_bey *node)
+int check_newline(t_stash *node)
 {
     int i = 0;
     if (!node || !node->data)
@@ -103,9 +103,9 @@ int check_newline(t_okuma_chunk_burkay_bey *node)
     return (0);
 }
 
-void ekle_sona_ekle(t_okuma_chunk_burkay_bey **head, t_okuma_chunk_burkay_bey *new_node)
+void ekle_sona_ekle(t_stash **head, t_stash *new_node)
 {
-    t_okuma_chunk_burkay_bey *temporary;
+    t_stash *temporary;
 
     if (!*head)
     {
@@ -120,14 +120,14 @@ void ekle_sona_ekle(t_okuma_chunk_burkay_bey **head, t_okuma_chunk_burkay_bey *n
     temporary->next = new_node;
 }
 
-int toplayici(int fd, t_okuma_chunk_burkay_bey **head)
+int toplayici(int fd, t_stash **head)
 {
-    t_okuma_chunk_burkay_bey *new_node;
+    t_stash *new_node;
     int n;
 
     while (1)
     {
-        new_node = malloc(sizeof(t_okuma_chunk_burkay_bey));
+        new_node = malloc(sizeof(t_stash));
         if (!new_node)
             return (-1);
             
@@ -167,7 +167,7 @@ int toplayici(int fd, t_okuma_chunk_burkay_bey **head)
 
 char *gnl(int fd)
 {
-    static t_okuma_chunk_burkay_bey *head = NULL;
+    static t_stash *head = NULL;
     char *satır;
 
     // fd kontrolünü buraya eklemek zorunda kaldım yoksa fd=open eksi dönerse direkt patlıyor sistem
@@ -190,7 +190,6 @@ int main(void)
     if (fd < 0)
         return 1;
 
-    printf("--- GNL TEST BASLIYOR BURKAY BEEEY ---\n");
     while (1)
     {
         line = gnl(fd);
@@ -200,9 +199,6 @@ int main(void)
         printf("GELEN SATIR: %s", line);
         free(line);
     }
-    printf("\n--- GNL TEST BITTII BURKAY BEEEY---\n");
-    
     close(fd);
     return 0;
 }
-// 
