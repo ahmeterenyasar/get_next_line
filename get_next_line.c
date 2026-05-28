@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void temizleyiciii(t_stash **head)
+void trim_stash(t_stash **head)
 {
     t_stash *current = *head;
     int i, j;
@@ -36,7 +36,7 @@ void temizleyiciii(t_stash **head)
     *head = NULL;
 }
 
-char *çıkarıcı(t_stash **head)
+char *extract_line(t_stash **head)
 {
     char *satır;
 
@@ -175,8 +175,8 @@ char *gnl(int fd)
         return (NULL);
 
     fill_stash(fd, &head);
-    satır = çıkarıcı(&head);
-    temizleyiciii(&head);
+    satır = extract_line(&head);
+    trim_stash(&head);
     
     return satır;
 }
