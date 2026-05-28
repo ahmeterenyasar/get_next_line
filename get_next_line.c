@@ -38,9 +38,9 @@ void trim_stash(t_stash **head)
 
 char *extract_line(t_stash **head)
 {
-    char *satır;
+    char *line;
 
-    int satır_length = 0;
+    int line_length = 0;
     int index = 0;
     t_stash *curr = *head;
     while (curr)
@@ -48,7 +48,7 @@ char *extract_line(t_stash **head)
         index = 0; 
         while (index < curr->number_of_used_bytes)
         {
-            satır_length++;
+            line_length++;
             if (curr->data[index] == '\n')
             {
                 break;
@@ -60,7 +60,7 @@ char *extract_line(t_stash **head)
         curr = curr->next;
     }
 
-    satır = malloc(satır_length + 1);
+    line = malloc(line_length + 1);
 
     curr = *head; 
 
@@ -72,24 +72,24 @@ char *extract_line(t_stash **head)
         i = 0;
         while (i < curr->number_of_used_bytes)
         {
-            satır[j] = curr->data[i];
+            line[j] = curr->data[i];
             j++;
             
             if (curr->data[i] == '\n')
             {
-                satır[j] = '\0';
-                return satır;
+                line[j] = '\0';
+                return line;
             }
             i++;
         }
         curr = curr->next;
     }
     
-    satır[j] = '\0';
-    return satır;
+    line[j] = '\0';
+    return line;
 }
 
-int check_newline(t_stash *node)
+int has_newline(t_stash *node)
 {
     int i = 0;
     if (!node || !node->data)
@@ -103,7 +103,7 @@ int check_newline(t_stash *node)
     return (0);
 }
 
-void ekle_sona_ekle(t_stash **head, t_stash *new_node)
+void append_node(t_stash **head, t_stash *new_node)
 {
     t_stash *temporary;
 
@@ -156,29 +156,29 @@ int fill_stash(int fd, t_stash **head)
         new_node->number_of_used_bytes = n;
         new_node->next = NULL;
 
-        ekle_sona_ekle(head, new_node);
+        append_node(head, new_node);
 
-        if (check_newline(new_node))
+        if (has_newline(new_node))
         {
             return (1);
         }
     }
 }
 
-char *gnl(int fd)
+char *get_next_line(int fd)
 {
     static t_stash *head = NULL;
-    char *satır;
+    char *line;
 
     // fd kontrolünü buraya eklemek zorunda kaldım yoksa fd=open eksi dönerse direkt patlıyor sistem
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 
     fill_stash(fd, &head);
-    satır = extract_line(&head);
+    line = extract_line(&head);
     trim_stash(&head);
     
-    return satır;
+    return line;
 }
 
 
@@ -192,7 +192,7 @@ int main(void)
 
     while (1)
     {
-        line = gnl(fd);
+        line = get_next_line(fd);
         if (!line)
             break;
             
