@@ -120,7 +120,7 @@ void ekle_sona_ekle(t_stash **head, t_stash *new_node)
     temporary->next = new_node;
 }
 
-int toplayici(int fd, t_stash **head)
+int fill_stash(int fd, t_stash **head)
 {
     t_stash *new_node;
     int n;
@@ -174,7 +174,7 @@ char *gnl(int fd)
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 
-    toplayici(fd, &head);
+    fill_stash(fd, &head);
     satır = çıkarıcı(&head);
     temizleyiciii(&head);
     
