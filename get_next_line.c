@@ -89,20 +89,6 @@ char *extract_line(t_stash **head)
     return line;
 }
 
-int has_newline(t_stash *node)
-{
-    int i = 0;
-    if (!node || !node->data)
-        return (0);
-    while (i < node->number_of_used_bytes)
-    {
-        if (node->data[i] == '\n')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
 void append_node(t_stash **head, t_stash *new_node)
 {
     t_stash *temporary;
@@ -181,24 +167,3 @@ char *get_next_line(int fd)
     return line;
 }
 
-
-int main(void)
-{
-    int fd = open("test.txt", O_RDONLY);
-    char *line;
-
-    if (fd < 0)
-        return 1;
-
-    while (1)
-    {
-        line = get_next_line(fd);
-        if (!line)
-            break;
-            
-        printf("GELEN SATIR: %s", line);
-        free(line);
-    }
-    close(fd);
-    return 0;
-}
