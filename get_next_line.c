@@ -6,31 +6,31 @@
 
 void temizleyiciii(t_stash **head)
 {
-    t_stash *currrent_ama_neden_current_neden_curr_degil = *head;
+    t_stash *current = *head;
     int i, j;
 
-    while (currrent_ama_neden_current_neden_curr_degil)
+    while (current)
     {
         i = 0;
-        while (i < currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes)
+        while (i < current->number_of_used_bytes)
         {
-            if (currrent_ama_neden_current_neden_curr_degil->data[i] == '\n')
+            if (current->data[i] == '\n')
             {
                 j = 0;
-                while (i < currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes - 1) 
+                while (i < current->number_of_used_bytes - 1) 
                 {
-                    currrent_ama_neden_current_neden_curr_degil->data[j] = currrent_ama_neden_current_neden_curr_degil->data[i + 1];
+                    current->data[j] = current->data[i + 1];
                     i++;
                     j++;
                 }
-                currrent_ama_neden_current_neden_curr_degil->number_of_used_bytes = j;
+                current->number_of_used_bytes = j;
                 
-                *head = currrent_ama_neden_current_neden_curr_degil;
+                *head = current;
                 return;
             }
             i++;
         }
-        currrent_ama_neden_current_neden_curr_degil = currrent_ama_neden_current_neden_curr_degil->next;
+        current = current->next;
     }
     free(*head);
     *head = NULL;
