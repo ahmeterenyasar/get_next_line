@@ -1,3 +1,5 @@
+*This project has been created as part of the 42 curriculum by Ahmet Eren Yaşar.*
+
 # get_next_line
 
 strjoin yerine linked list kullanılacak
