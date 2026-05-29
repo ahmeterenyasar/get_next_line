@@ -23,7 +23,19 @@
 
 The central challenge of `get_next_line` is that `read()` fills a fixed-size buffer that may end mid-line, mid-newline, or exactly on a newline. The unread tail must survive until the next call without performing an extra `read()` and without knowing in advance how long the eventual line will be.
 
+### File structure
+
+```
+.
+├── get_next_line.c          # Core logic (fill_stash, extract_line, trim_stash, get_next_line)
+├── get_next_line_utils.c    # Helper functions (has_newline, etc.)
+└── get_next_line.h          # t_stash struct definition and prototypes
+```
+
+---
 
 ## Reources
+- 42 — get_next_line subject — official project specification.
+
 
 ## AI usage
