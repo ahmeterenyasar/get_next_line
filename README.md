@@ -2,13 +2,11 @@
 
 # get_next_line
 
-strjoin yerine linked list kullanılacak
-3 yapılı bir mantık haricinde bir şey mümkün değil ama ekip umarım bunuda intihal olarak anlamaz: get_next_line toplar çıkarır ve temizler buff kadar okicaz new linea kadar çıkarıcaz temizlenmiş halini statiğe yazacaz.
-aşama aşama leak bakarız ya da en son leak bakarız idk
+## Description
+The **get_next_line** project involves developing a C function that reads a single line from a file descriptor. The primary objective is to understand and implement static variables for persistent state management across multiple function calls, while rigorously handling dynamic memory allocation. The function successfully returns a line ending with a newline character (`\n`) or the end of file (EOF), ensuring zero memory leaks during the read cycle.
 
-burkay ve berkay ve rüya hanım ve disiplin için anlamasalarda biraz daha teknikal bir açıklama şöyle olabilir
+## Instructions
 
-her read() çağrısı bir "parça" getiriyor bakınız "parça". Genelde parçaları birleştirip tek bir uzun string tutuluyor ordan parse ediliyor diyelim ayrıştırma falan temizleme türkçe söylemek gerekirse. Ben bunun yerine, parçaları olduğu gibi bir listede tutacağım, bu fikri bana veren aakyuz ve diğerlerine teşekkür ederim akran öğrenmesi olduğuna dikkat çekerim onlar öyle mi yaptı bilmiyorum ama linked list ile yapıldığını duymuşlar ben de kendi mantığım "KENDİ" mantığım bana ait -bakın klavyeye basıyorum şuan- kodlarla yazacağım. Listeye baktığımızda şuna benzer bir görüntüyü görececeğiz:
-head -> [BUFFER_SIZE byte] -> [BUFFER_SIZE byte] -> [BUFFER_SIZE byte, '\n' var] -> NULL
-gibi gibi
-anlamadınız ama olsun anlarsınız
+## Algorithm
+
+## Reources
