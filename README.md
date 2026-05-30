@@ -23,16 +23,38 @@
 
 The central challenge of `get_next_line` is that `read()` fills a fixed-size buffer that may end mid-line, mid-newline, or exactly on a newline. The unread tail must survive until the next call without performing an extra `read()` and without knowing in advance how long the eventual line will be.
 
-### File structure
+A **singly-linked list of buffer nodes** (the "stash") solves both problems:
+
+| Concern | Solution |
+|---|---|
+| Unknown line length | Nodes are appended on demand; no pre-allocation needed |
+| Data survival across calls | The `static t_stash *head` pointer persists between calls |
+| Multiple buffer sizes | Each node holds exactly `BUFFER_SIZE` bytes; logic is size-agnostic |
+| Minimal copying | Extraction traverses the list in place; trimming reuses the node already in memory |
+
+### Step-by-step flow
 
 ```
-.
-├── get_next_line.c          # Core logic (fill_stash, extract_line, trim_stash, get_next_line)
-├── get_next_line_utils.c    # Helper functions (has_newline, etc.)
-└── get_next_line.h          # t_stash struct definition and prototypes
+get_next_line(fd)
+│
+├─ 1. fill_stash(fd, &head)
+│       Read BUFFER_SIZE bytes at a time from fd, appending each
+│       chunk as a new t_stash node to the linked list.
+│       Stop as soon as a '\n' is found in the freshly-appended
+│       node, or when read() returns 0 (EOF).
+│
+├─ 2. extract_line(&head)
+│       Walk the list from the beginning, counting characters up
+│       to and including the first '\n' (or until the list is
+│       exhausted for the last line).
+│       Allocate exactly that many bytes + 1, copy, and return.
+│
+└─ 3. trim_stash(&head)
+        Find the '\n' that was just consumed, shift everything
+        after it to the front of its node, and update
+        number_of_used_bytes.  Nodes that become empty are freed.
+        If no bytes remain, head is set to NULL.
 ```
-
----
 
 ## Reources
 - 42 — get_next_line subject — official project specification.
