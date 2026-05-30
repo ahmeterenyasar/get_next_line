@@ -42,47 +42,47 @@ char *extract_line(t_stash **head)
 
     int line_length = 0;
     int index = 0;
-    t_stash *curr = *head;
-    while (curr)
+    t_stash *current = *head;
+    while (current)
     {
         index = 0; 
-        while (index < curr->number_of_used_bytes)
+        while (index < current->number_of_used_bytes)
         {
             line_length++;
-            if (curr->data[index] == '\n')
+            if (current->data[index] == '\n')
             {
                 break;
             }
             index++;
         }
-        if (index < curr->number_of_used_bytes && curr->data[index] == '\n')
+        if (index < current->number_of_used_bytes && current->data[index] == '\n')
             break;
-        curr = curr->next;
+        current = current->next;
     }
 
     line = malloc(line_length + 1);
 
-    curr = *head; 
+    current = *head; 
 
     int i = 0;
     int j = 0;
     
-    while (curr)
+    while (current)
     {
         i = 0;
-        while (i < curr->number_of_used_bytes)
+        while (i < current->number_of_used_bytes)
         {
-            line[j] = curr->data[i];
+            line[j] = current->data[i];
             j++;
             
-            if (curr->data[i] == '\n')
+            if (current->data[i] == '\n')
             {
                 line[j] = '\0';
                 return line;
             }
             i++;
         }
-        curr = curr->next;
+        current = current->next;
     }
     
     line[j] = '\0';
@@ -106,49 +106,36 @@ void append_node(t_stash **head, t_stash *new_node)
     temporary->next = new_node;
 }
 
+t_stash *read_chunk(int fd, int *bytes_read)
+{
+    t_stash *new_node;
+
+    *bytes_read = -1;
+    new_node = malloc(sizeof(t_stash));
+    new_node->data = malloc(BUFFER_SIZE);
+    *bytes_read = read(fd, new_node->data, BUFFER_SIZE);
+    new_node->number_of_used_bytes = *bytes_read;
+    new_node->next = NULL;
+    return (new_node);
+}
+
 int fill_stash(int fd, t_stash **head)
 {
     t_stash *new_node;
-    int n;
+    int     reading_bytes_reading_reading_byte;
 
-    while (1)
+    while (!has_newline(*head))
     {
-        new_node = malloc(sizeof(t_stash));
+        new_node = read_chunk(fd, &reading_bytes_reading_reading_byte);
         if (!new_node)
-            return (-1);
-            
-        new_node->data = malloc(BUFFER_SIZE);
-        if (!new_node->data)
         {
-            free(new_node);
+            if (reading_bytes_reading_reading_byte == 0)
+                return (0);
             return (-1);
         }
-
-        n = read(fd, new_node->data, BUFFER_SIZE);
-        
-        if (n < 0)
-        {
-            free(new_node->data);
-            free(new_node);
-            return (-1);
-        }
-        if (n == 0)
-        {
-            free(new_node->data);
-            free(new_node);
-            return (0);
-        }
-        
-        new_node->number_of_used_bytes = n;
-        new_node->next = NULL;
-
         append_node(head, new_node);
-
-        if (has_newline(new_node))
-        {
-            return (1);
-        }
     }
+    return (1);
 }
 
 char *get_next_line(int fd)

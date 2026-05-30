@@ -1,15 +1,21 @@
 #include "get_next_line.h"
 
-int has_newline(t_stash *node)
+int has_newline(t_stash *head)
 {
-    int i = 0;
-    if (!node || !node->data)
-        return (0);
-    while (i < node->number_of_used_bytes)
+    t_stash *curr;
+    int     i;
+
+    curr = head;
+    while (curr)
     {
-        if (node->data[i] == '\n')
-            return (1);
-        i++;
+        i = 0;
+        while (i < curr->number_of_used_bytes)
+        {
+            if (curr->data[i] == '\n')
+                return (1);
+            i++;
+        }
+        curr = curr->next;
     }
     return (0);
 }
