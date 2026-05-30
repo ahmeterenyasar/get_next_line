@@ -38,85 +38,26 @@ void trim_stash(t_stash **head)
 
 char *extract_line(t_stash **head)
 {
-    char *line;
+    char    *line;
+    int     len;
 
-    int line_length = 0;
-    int index = 0;
-    t_stash *current = *head;
-    while (current)
-    {
-        index = 0; 
-        while (index < current->number_of_used_bytes)
-        {
-            line_length++;
-            if (current->data[index] == '\n')
-            {
-                break;
-            }
-            index++;
-        }
-        if (index < current->number_of_used_bytes && current->data[index] == '\n')
-            break;
-        current = current->next;
-    }
-
-    line = malloc(line_length + 1);
-
-    current = *head; 
-
-    int i = 0;
-    int j = 0;
     
-    while (current)
-    {
-        i = 0;
-        while (i < current->number_of_used_bytes)
-        {
-            line[j] = current->data[i];
-            j++;
-            
-            if (current->data[i] == '\n')
-            {
-                line[j] = '\0';
-                return line;
-            }
-            i++;
-        }
-        current = current->next;
-    }
+    if (!head || !*head)
+        return (NULL);
+        
+    len = get_line_size(*head);
     
-    line[j] = '\0';
-    return line;
-}
-
-void append_node(t_stash **head, t_stash *new_node)
-{
-    t_stash *temporary;
-
-    if (!*head)
-    {
-        *head = new_node;
-        return;
-    }
-    temporary = *head;
-    while (temporary->next)
-    {
-        temporary = temporary->next;
-    }
-    temporary->next = new_node;
-}
-
-t_stash *read_chunk(int fd, int *bytes_read)
-{
-    t_stash *new_node;
-
-    *bytes_read = -1;
-    new_node = malloc(sizeof(t_stash));
-    new_node->data = malloc(BUFFER_SIZE);
-    *bytes_read = read(fd, new_node->data, BUFFER_SIZE);
-    new_node->number_of_used_bytes = *bytes_read;
-    new_node->next = NULL;
-    return (new_node);
+    
+    if (len == 0)
+        return (NULL);
+        
+    line = malloc(sizeof(char) * (len + 1));
+    if (!line)
+        return (NULL); 
+        
+    copy_to_line(*head, line);
+    
+    return (line);
 }
 
 int fill_stash(int fd, t_stash **head)
@@ -143,7 +84,7 @@ char *get_next_line(int fd)
     static t_stash *head = NULL;
     char *line;
 
-    // fd kontrolünü buraya eklemek zorunda kaldım yoksa fd=open eksi dönerse direkt patlıyor sistem
+    
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 

@@ -19,3 +19,78 @@ int has_newline(t_stash *head)
     }
     return (0);
 }
+
+int get_line_size(t_stash *head)
+{
+    int len;
+    int i;
+
+    len = 0;
+    while (head)
+    {
+        i = 0;
+        while (i < head->number_of_used_bytes)
+        {
+            len++;
+            if (head->data[i] == '\n')
+                return (len);
+            i++;
+        }
+        head = head->next;
+    }
+    return (len);
+}
+
+void copy_to_line(t_stash *head, char *line)
+{
+    int i;
+    int j;
+
+    j = 0;
+    while (head)
+    {
+        i = 0;
+        while (i < head->number_of_used_bytes)
+        {
+            line[j++] = head->data[i];
+            if (head->data[i] == '\n')
+            {
+                line[j] = '\0';
+                return ;
+            }
+            i++;
+        }
+        head = head->next;
+    }
+    line[j] = '\0';
+}
+
+void append_node(t_stash **head, t_stash *new_node)
+{
+    t_stash *temporary;
+
+    if (!*head)
+    {
+        *head = new_node;
+        return;
+    }
+    temporary = *head;
+    while (temporary->next)
+    {
+        temporary = temporary->next;
+    }
+    temporary->next = new_node;
+}
+
+t_stash *read_chunk(int fd, int *bytes_read)
+{
+    t_stash *new_node;
+
+    *bytes_read = -1;
+    new_node = malloc(sizeof(t_stash));
+    new_node->data = malloc(BUFFER_SIZE);
+    *bytes_read = read(fd, new_node->data, BUFFER_SIZE);
+    new_node->number_of_used_bytes = *bytes_read;
+    new_node->next = NULL;
+    return (new_node);
+}
