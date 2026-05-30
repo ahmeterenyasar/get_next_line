@@ -6,4 +6,22 @@ int main(void)
     int fd = open("test.txt", O_RDONLY);
     char *line;
     line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    line = get_next_line(fd);
+    printf("%s", line);
+    free(line);
 }

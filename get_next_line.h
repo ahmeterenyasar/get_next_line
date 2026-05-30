@@ -17,6 +17,11 @@ typedef struct s_stash
     struct s_stash* next;
 } t_stash;
 
-
+char *get_next_line(int fd);
+int has_newline(t_stash *node);
+void trim_stash(t_stash **head);
+char *extract_line(t_stash **head);
+void append_node(t_stash **head, t_stash *new_node);
+int fill_stash(int fd, t_stash **head);
 
 #endif
