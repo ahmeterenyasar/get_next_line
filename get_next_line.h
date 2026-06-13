@@ -25,5 +25,6 @@ void append_node(t_stash **head, t_stash *new_node);
 int fill_stash(int fd, t_stash **head);
 int get_line_size(t_stash *head);
 void copy_to_line(t_stash *head, char *line);
+t_stash *read_chunk(int fd, int *bytes_read);
 
 #endif

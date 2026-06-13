@@ -4,6 +4,19 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static void clear_stash(t_stash **head)
+{
+    t_stash *next;
+
+    while (head && *head)
+    {
+        next = (*head)->next;
+        free((*head)->data);
+        free(*head);
+        *head = next;
+    }
+}
+
 void trim_stash(t_stash **head)
 {
     t_stash *current = *head;
@@ -32,8 +45,7 @@ void trim_stash(t_stash **head)
         }
         current = current->next;
     }
-    free(*head);
-    *head = NULL;
+    clear_stash(head);
 }
 
 char *extract_line(t_stash **head)
@@ -82,13 +94,18 @@ int fill_stash(int fd, t_stash **head)
 char *get_next_line(int fd)
 {
     static t_stash *head = NULL;
+    int status;
     char *line;
-
     
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
 
-    fill_stash(fd, &head);
+    status = fill_stash(fd, &head);
+    if (status == -1)
+    {
+        clear_stash(&head);
+        return (NULL);
+    }
     line = extract_line(&head);
     trim_stash(&head);
     
