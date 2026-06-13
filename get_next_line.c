@@ -4,11 +4,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void clear_stash(t_stash **head)
+static void clear_stash(t_stash **head, t_stash *stop)
 {
     t_stash *next;
 
-    while (head && *head)
+    while (head && *head && *head != stop)
     {
         next = (*head)->next;
         free((*head)->data);
@@ -19,70 +19,60 @@ static void clear_stash(t_stash **head)
 
 void trim_stash(t_stash **head)
 {
-    t_stash *current = *head;
-    int i, j;
+    t_stash *current;
+    int     i;
+    int     j;
 
+    current = *head;
     while (current)
     {
         i = 0;
-        while (i < current->number_of_used_bytes)
-        {
-            if (current->data[i] == '\n')
-            {
-                j = 0;
-                while (i < current->number_of_used_bytes - 1) 
-                {
-                    current->data[j] = current->data[i + 1];
-                    i++;
-                    j++;
-                }
-                current->number_of_used_bytes = j;
-                
-                *head = current;
-                return;
-            }
+        while (i < current->number_of_used_bytes && current->data[i] != '\n')
             i++;
+        if (i < current->number_of_used_bytes)
+        {
+            clear_stash(head, current);
+            j = 0;
+            while (++i < current->number_of_used_bytes)
+                current->data[j++] = current->data[i];
+            current->number_of_used_bytes = j;
+            if (j == 0)
+                clear_stash(head, current->next);
+            return;
         }
         current = current->next;
     }
-    clear_stash(head);
+    clear_stash(head, NULL);
 }
 
-char *extract_line(t_stash **head)
+char *extract_line(t_stash *head)
 {
     char    *line;
     int     len;
-
     
-    if (!head || !*head)
+    if (!head)
         return (NULL);
-        
-    len = get_line_size(*head);
-    
-    
+    len = get_line_size(head);
     if (len == 0)
         return (NULL);
-        
     line = malloc(sizeof(char) * (len + 1));
     if (!line)
         return (NULL); 
-        
-    copy_to_line(*head, line);
-    
+    copy_to_line(head, line);
     return (line);
 }
 
 int fill_stash(int fd, t_stash **head)
 {
     t_stash *new_node;
-    int     reading_bytes_reading_reading_byte;
+    int     byt_rd;
 
     while (!has_newline(*head))
     {
-        new_node = read_chunk(fd, &reading_bytes_reading_reading_byte);
+        new_node = read_chunk(fd, &byt_rd);
         if (!new_node)
         {
-            if (reading_bytes_reading_reading_byte == 0)
+            if (byt_rd == 0)
                 return (0);
             return (-1);
         }
@@ -103,10 +93,15 @@ char *get_next_line(int fd)
     status = fill_stash(fd, &head);
     if (status == -1)
     {
-        clear_stash(&head);
+        clear_stash(&head, NULL);
         return (NULL);
     }
-    line = extract_line(&head);
+    line = extract_line(head);
+    if (!line)
+    {
+        clear_stash(&head, NULL);
+        return (NULL);
+    }
     trim_stash(&head);
     
     return line;

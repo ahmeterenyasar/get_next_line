@@ -6,7 +6,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#define BUFFER_SIZE 24
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 34
+#endif
 
 
 // chunklar halinde okicaz o yüzden bir strcut oluşturalım linked list yapısı
@@ -20,7 +22,7 @@ typedef struct s_stash
 char *get_next_line(int fd);
 int has_newline(t_stash *node);
 void trim_stash(t_stash **head);
-char *extract_line(t_stash **head);
+char *extract_line(t_stash *head);
 void append_node(t_stash **head, t_stash *new_node);
 int fill_stash(int fd, t_stash **head);
 int get_line_size(t_stash *head);

@@ -3,25 +3,17 @@
 
 int main(void)
 {
-    int fd = open("test.txt", O_RDONLY);
+    int fd;
     char *line;
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    line = get_next_line(fd);
-    printf("%s", line);
-    free(line);
+
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0)
+        return (1);
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
 }

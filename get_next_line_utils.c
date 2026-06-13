@@ -2,20 +2,18 @@
 
 int has_newline(t_stash *head)
 {
-    t_stash *curr;
     int     i;
 
-    curr = head;
-    while (curr)
+    if (!head)
+        return (0);
+    while (head->next)
+        head = head->next;
+    i = 0;
+    while (i < head->number_of_used_bytes)
     {
-        i = 0;
-        while (i < curr->number_of_used_bytes)
-        {
-            if (curr->data[i] == '\n')
-                return (1);
-            i++;
-        }
-        curr = curr->next;
+        if (head->data[i] == '\n')
+            return (1);
+        i++;
     }
     return (0);
 }
