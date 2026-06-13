@@ -10,8 +10,6 @@
 # define BUFFER_SIZE 34
 #endif
 
-
-// chunklar halinde okicaz o yüzden bir strcut oluşturalım linked list yapısı
 typedef struct s_stash
 {
     char            *data;
