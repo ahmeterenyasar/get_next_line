@@ -17,6 +17,56 @@
 
 ---
 
+## Instructions
+
+### Integration
+To use `get_next_line` in your own projects, include the header and compile the source files alongside your own:
+
+```c
+#include "get_next_line.h"
+```
+
+### Compilation
+
+You must compile the files using the `cc` compiler with the standard 42 flags. The project requires the `-D BUFFER_SIZE=n` flag to determine the chunk size for `read()`. You can change `42` to any positive integer.
+
+```bash
+cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c your_main.c
+
+```
+
+
+
+### Usage Example
+
+Here is a basic example of reading a file line by line until the end:
+
+```c
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fd;
+    char *line;
+
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0)
+        return (1);
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
+}
+
+```
+
+---
+
 ## Algorithm — Linked-List Stash
 
 ### Why a linked list?
@@ -26,7 +76,7 @@ The central challenge of `get_next_line` is that `read()` fills a fixed-size buf
 A **singly-linked list of buffer nodes** (the "stash") solves both problems:
 
 | Concern | Solution |
-|---|---|
+| --- | --- |
 | Unknown line length | Nodes are appended on demand; no pre-allocation needed |
 | Data survival across calls | The `static t_stash *head` pointer persists between calls |
 | Multiple buffer sizes | Each node holds exactly `BUFFER_SIZE` bytes; logic is size-agnostic |
@@ -34,7 +84,7 @@ A **singly-linked list of buffer nodes** (the "stash") solves both problems:
 
 ### Step-by-step flow
 
-```
+```text
 get_next_line(fd)
 │
 ├─ 1. fill_stash(fd, &head)
@@ -52,12 +102,22 @@ get_next_line(fd)
 └─ 3. trim_stash(&head)
         Find the '\n' that was just consumed, shift everything
         after it to the front of its node, and update
-        number_of_used_bytes.  Nodes that become empty are freed.
+        number_of_used_bytes. Nodes that become empty are freed.
         If no bytes remain, head is set to NULL.
+
 ```
 
-## Reources
-- 42 — get_next_line subject — official project specification.
+---
 
+## Resources
 
-## AI usage
+* **42 Subject:** `get_next_line` official project specification.
+* **Manuals:** `man 2 read`, `man 3 malloc`, `man 3 free`.
+
+## AI Usage
+In strict alignment with 42's AI policy, Artificial Intelligence (LLM) was utilized responsibly as a supplementary tool, strictly avoiding any code generation or algorithmic design. Specifically, AI was used for:
+- **Documentation & Phrasing:** Assisting with the English grammar, structure, and clarity of this README file.
+- **Norminette Formatting Checks:** Acting as a secondary tool to spot minor syntax formatting deviations (e.g., pointer alignments, indentation, and column limits) before running the official Norminette.
+- **Concept Clarification:** Exploring high-level theoretical concepts regarding the behavior of static variables and file descriptors to reinforce foundational knowledge.
+
+The core logic, linked-list architecture, memory management, and C implementation were entirely developed manually through intellectual effort, logical reasoning, and peer-learning principles.
