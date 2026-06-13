@@ -80,31 +80,28 @@ void append_node(t_stash **head, t_stash *new_node)
     temporary->next = new_node;
 }
 
-t_stash *read_chunk(int fd, int *bytes_read)
+t_stash	*read_chunk(int fd, int *bytes_read)
 {
-    t_stash *new_node;
+	t_stash	*new_node;
 
-    new_node = malloc(sizeof(t_stash));
-    if (!new_node)
-    {
-        *bytes_read = -1;
-        return (NULL);
-    }
-    new_node->data = malloc(BUFFER_SIZE);
-    if (!new_node->data)
-    {
-        free(new_node);
-        *bytes_read = -1;
-        return (NULL);
-    }
-    *bytes_read = read(fd, new_node->data, BUFFER_SIZE);
-    if (*bytes_read <= 0)
-    {
-        free(new_node->data);
-        free(new_node);
-        return (NULL);
-    }
-    new_node->number_of_used_bytes = *bytes_read;
-    new_node->next = NULL;
-    return (new_node);
+	*bytes_read = -1;
+	new_node = malloc(sizeof(t_stash));
+	if (!new_node)
+		return (NULL);
+	new_node->data = malloc(BUFFER_SIZE);
+	if (!new_node->data)
+	{
+		free(new_node);
+		return (NULL);
+	}
+	*bytes_read = read(fd, new_node->data, BUFFER_SIZE);
+	if (*bytes_read <= 0)
+	{
+		free(new_node->data);
+		free(new_node);
+		return (NULL);
+	}
+	new_node->number_of_used_bytes = *bytes_read;
+	new_node->next = NULL;
+	return (new_node);
 }
