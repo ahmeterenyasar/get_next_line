@@ -1,83 +1,95 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ayasar <ayasar@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/13 20:46:01 by ayasar            #+#    #+#             */
+/*   Updated: 2026/06/13 20:46:02 by ayasar           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-int has_newline(t_stash *head)
+int	has_newline(t_stash *head)
 {
-    int     i;
+	int	i;
 
-    if (!head)
-        return (0);
-    while (head->next)
-        head = head->next;
-    i = 0;
-    while (i < head->number_of_used_bytes)
-    {
-        if (head->data[i] == '\n')
-            return (1);
-        i++;
-    }
-    return (0);
+	if (!head)
+		return (0);
+	while (head->next)
+		head = head->next;
+	i = 0;
+	while (i < head->number_of_used_bytes)
+	{
+		if (head->data[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int get_line_size(t_stash *head)
+int	get_line_size(t_stash *head)
 {
-    int len;
-    int i;
+	int	len;
+	int	i;
 
-    len = 0;
-    while (head)
-    {
-        i = 0;
-        while (i < head->number_of_used_bytes)
-        {
-            len++;
-            if (head->data[i] == '\n')
-                return (len);
-            i++;
-        }
-        head = head->next;
-    }
-    return (len);
+	len = 0;
+	while (head)
+	{
+		i = 0;
+		while (i < head->number_of_used_bytes)
+		{
+			len++;
+			if (head->data[i] == '\n')
+				return (len);
+			i++;
+		}
+		head = head->next;
+	}
+	return (len);
 }
 
-void copy_to_line(t_stash *head, char *line)
+void	copy_to_line(t_stash *head, char *line)
 {
-    int i;
-    int j;
+	int	i;
+	int	j;
 
-    j = 0;
-    while (head)
-    {
-        i = 0;
-        while (i < head->number_of_used_bytes)
-        {
-            line[j++] = head->data[i];
-            if (head->data[i] == '\n')
-            {
-                line[j] = '\0';
-                return ;
-            }
-            i++;
-        }
-        head = head->next;
-    }
-    line[j] = '\0';
+	j = 0;
+	while (head)
+	{
+		i = 0;
+		while (i < head->number_of_used_bytes)
+		{
+			line[j++] = head->data[i];
+			if (head->data[i] == '\n')
+			{
+				line[j] = '\0';
+				return ;
+			}
+			i++;
+		}
+		head = head->next;
+	}
+	line[j] = '\0';
 }
 
-void append_node(t_stash **head, t_stash *new_node)
+void	append_node(t_stash **head, t_stash *new_node)
 {
-    t_stash *temporary;
+	t_stash	*temporary;
 
-    if (!*head)
-    {
-        *head = new_node;
-        return;
-    }
-    temporary = *head;
-    while (temporary->next)
-    {
-        temporary = temporary->next;
-    }
-    temporary->next = new_node;
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	temporary = *head;
+	while (temporary->next)
+	{
+		temporary = temporary->next;
+	}
+	temporary->next = new_node;
 }
 
 t_stash	*read_chunk(int fd, int *bytes_read)
