@@ -14,9 +14,9 @@
 // chunklar halinde okicaz o yüzden bir strcut oluşturalım linked list yapısı
 typedef struct s_stash
 {
-    char* data;
-    int number_of_used_bytes;
-    struct s_stash* next;
+    char            *data;
+    int             number_of_used_bytes;
+    struct s_stash  *next;
 } t_stash;
 
 char *get_next_line(int fd);

@@ -1,8 +1,4 @@
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 static void clear_stash(t_stash **head, t_stash *stop)
 {
